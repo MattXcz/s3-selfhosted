@@ -41,6 +41,16 @@ Samotné úložiště (`selfhost_s3`) běží jako jeden Docker kontejner, jeden
      ```
      client_max_body_size 100M;
      ```
+   - Pro streamování videa pomocí HTTP Range requests přidej do záložky *Advanced*:
+     ```
+     client_max_body_size 100M;
+     proxy_set_header Range $http_range;
+     proxy_set_header If-Range $http_if_range;
+     proxy_set_header Accept-Encoding "";
+     proxy_buffering off;
+     proxy_request_buffering off;
+     ```
+     Nesmí se přidat druhý `client_max_body_size`; hodnota musí odpovídat `S3_MAX_FILE_SIZE`.
 
 6. Po uložení by mělo jít:
 
